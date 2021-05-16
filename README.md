@@ -11,6 +11,6 @@ Script that can be used in a shell prompt or with a GUI if you have a desktop en
 
 ## Screenshots
 
-[Original Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Original.png)
-[Light Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Light.png)
-[Dark Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Dark.png)
+![Original Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Original.png)
+![Light Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Light.png)
+![Dark Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Dark.png)

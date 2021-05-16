@@ -17,5 +17,5 @@ Original Theme
 Light Theme
 ![Light Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Light.png)
 
-Dark THeme
+Dark Theme
 ![Dark Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshot_Dark.png)

@@ -1,6 +1,4 @@
 # when changes are made prompt user if exiting without saving
-# set height accd to # of tems
-
 useGUI=True
 
 domain=""
@@ -33,10 +31,19 @@ if pkgutil.find_loader("requests") is None:
      sys.exit(0)
 
 # Only required if useGUI=true
-if useGUI == True and pkgutil.find_loader("PySide6") is None:
-     print("PySide6 package is missing. Please run pip install PySide6 to install it")
-     sys.exit(0)
+if useGUI == True:
+     if pkgutil.find_loader("PySide6") is None:
+          print("PySide6 package is missing. Please run pip install PySide6 to install it")
+          sys.exit(0)
+          
+     if pkgutil.find_loader("pyqt5-tools") is None:
+          print("pyqt5-tools package is missing. Please run pip install pyqt5-tools to install it")
+          sys.exit(0)
 
+     if pkgutil.find_loader("qt-modern") is None:
+          print("pyqt5-tools package is missing. Please run pip install pyqt5-tools to install it")
+          sys.exit(0)
+          
 import json;
 import requests;
 

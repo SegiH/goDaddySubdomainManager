@@ -1,3 +1,6 @@
+# when changes are made prompt user if exiting without saving
+# set height accd to # of tems
+
 useGUI=True
 
 domain=""
@@ -91,13 +94,14 @@ def getARecords(overrideDomain="",overrideAPIKey=""):
           
           if APIKey == "":
                return "API Key is not set"
+
      try:
           url=f"https://api.godaddy.com/v1/domains/{domain}/records/A/";
           
           resp = requests.get(url,headers=headers);
 
           currentSubDomains = resp.json();
-          
+
           return ""
      except:
           print("An error occurred");
@@ -209,81 +213,83 @@ if useGUI == True:
           def __init__(self):
                QWidget.__init__(self)
         
-               self.resize(1150, 650)
+               self.resize(1150, 750)
         
                self.gdDomainLabel = QLabel(self)
                self.gdDomainLabel.setText("Go Daddy Domain: ")
                self.gdDomainLabel.setMinimumWidth(150)
-               self.gdDomainLabel.move(5,45)
+               self.gdDomainLabel.move(5,25)
                
                self.gdDomainField = QLineEdit(self)
                self.gdDomainField.setMinimumWidth(200)
                self.gdDomainField.setText(domain)
-               self.gdDomainField.move(150,43)
+               self.gdDomainField.move(140,23)
                
                self.gdAPIKeyLabel = QLabel(self)
                self.gdAPIKeyLabel.setText("API Key: ")
-               self.gdAPIKeyLabel.move(5,85)
+               self.gdAPIKeyLabel.move(355,25)
                
                self.gdAPIKeyField = QLineEdit(self)
                self.gdAPIKeyField.setMinimumWidth(550)
                self.gdAPIKeyField.setText(APIKey)
-               self.gdAPIKeyField.move(150,82)
+               self.gdAPIKeyField.move(420,23)
                
                self.loadSubDomainsButton = QPushButton(self)
                self.loadSubDomainsButton.setText("Load Sub Domains")
                self.loadSubDomainsButton.setMinimumWidth(150)
-               self.loadSubDomainsButton.move(710,82)
+               self.loadSubDomainsButton.move(975,23)
                self.loadSubDomainsButton.clicked.connect(self.loadSubDomains)
-               
+                        
                self.addLabel = QLabel(self)
                self.addLabel.setText("Add sub domain")
                self.addLabel.setMinimumWidth(120)
-               self.addLabel.move(5,140)
+               self.addLabel.move(5,65)
         
                self.addField = QLineEdit(self)
-               self.addField.move(150,138)
+               self.addField.setMinimumWidth(550)
+               self.addField.move(150,63)
         
                self.addButton = QPushButton(self)
                self.addButton.setText("Add")
-               self.addButton.move(330,138)
+               self.addButton.move(720,63)
                self.addButton.clicked.connect(self.addButtonClicked)
         
                self.saveButton = QPushButton(self)
                self.saveButton.setText("Save")
-               self.saveButton.move(1000,82)
+               self.saveButton.move(1000,62)
                self.saveButton.clicked.connect(self.saveButtonClicked)
         
                self.subDomainsList = QListWidget(self)
                self.subDomainsList.setSortingEnabled(True)
-        
+               self.subDomainsList.itemClicked.connect(self.listItemClicked)               
+               self.subDomainsList.move(5,120)
+               self.subDomainsList.setMinimumWidth(250)
+               #self.subDomainsList.setMinimumHeight(530)
+
                self.loadSubDomains(True)
                
-               self.subDomainsList.move(5,180)
-               self.subDomainsList.setMinimumWidth(250)
-               self.subDomainsList.setMinimumHeight(400)
-        
                self.newNameLabel = QLabel(self)
                self.newNameLabel.setText("New sub domain name")
                self.newNameLabel.setMinimumWidth(250)
                self.newNameLabel.move(280,180)
                self.newNameLabel.hide()
-        
+               
                self.newNameField = QLineEdit(self)
                self.newNameField.move(450,178)
                self.newNameField.hide()
-        
+               
                self.renameButton = QPushButton(self)
                self.renameButton.setText("Rename")
-               self.renameButton.move(280,178)
+               self.renameButton.move(600,178)
                self.renameButton.clicked.connect(self.renameButtonClicked)
-        
-               self.cancelButton = QPushButton(self)
-               self.cancelButton.setText("Cancel")
-               self.cancelButton.move(730,178)
-               self.cancelButton.clicked.connect(self.cancelButtonClicked)
-               self.cancelButton.hide()
-        
+               self.renameButton.hide()
+               
+               self.deleteButton = QPushButton(self)
+               self.deleteButton.setText("Delete")
+               self.deleteButton.move(600,250)
+               self.deleteButton.clicked.connect(self.deleteButtonClicked)
+               self.deleteButton.hide()
+
           def addButtonClicked(self):
                if self.addField.text() == "":
                     self.messageBox("Add new sub domain","Please enter the name of the subdomain to add")
@@ -295,20 +301,45 @@ if useGUI == True:
                currentSubDomains.append({'data' : publicIPAddress,'name': self.addField.text(),'ttl': 600,'type': 'A'});
         
                self.subDomainsList.addItem(self.addField.text())
+               
+               self.adjustSubDomainListHeight()
         
                self.addField.setText("")
 
-          def cancelButtonClicked(self):
-               self.renameButton.move(280,178)
-         
-               self.newNameLabel.hide()
-         
-               self.newNameField.setText("")
-         
-               self.newNameField.hide()
-         
-               self.cancelButton.hide()
-   
+          def adjustSubDomainListHeight(self):
+               newHeight=self.subDomainsList.count()*17.1 if self.subDomainsList.count()*17.1 <  615 else 615;
+               
+               self.subDomainsList.setMinimumHeight(newHeight)
+               
+          def deleteButtonClicked(self):
+               result = self.messageBox_YesNo("Delete Subdomains from Go Daddy", "Are you sure you want to delete this sub domain ?")
+
+               if result == "NO":
+                    return
+
+               selectedItems=self.subDomainsList.currentItem().text()
+               
+               self.subDomainsList.takeItem(self.subDomainsList.currentRow())
+               
+               # Find and delete item
+               for index,currentDomain in enumerate(currentSubDomains):
+                    if currentDomain['name'] == selectedItems:
+                         currentSubDomains.pop(index);
+                
+               self.adjustSubDomainListHeight()
+                
+          def listItemClicked(self):
+               if len(self.subDomainsList.selectedItems()) != 0:
+                    self.newNameLabel.show()
+                    self.newNameField.show()
+                    self.renameButton.show()
+                    self.deleteButton.show()
+               else:
+                    self.newNameLabel.hide()
+                    self.newNameField.hide()
+                    self.renameButton.hide()
+                    self.deleteButton.hide()
+               
           def loadSubDomains(self,initialLoading):
                self.subDomainsList.clear()
                
@@ -320,8 +351,10 @@ if useGUI == True:
                          self.messageBox("An error occurred getting the records",resp)
                          return
 
-                         for index,currentDomain in enumerate(currentSubDomains):
-                              self.subDomainsList.addItem(currentDomain['name'])
+                    for index,currentDomain in enumerate(currentSubDomains):
+                         self.subDomainsList.addItem(currentDomain['name'])
+                         
+                    self.adjustSubDomainListHeight()
                else:
                     self.subDomainsList.addItem('subdomain1')
                     self.subDomainsList.addItem('subdomain2')
@@ -347,19 +380,6 @@ if useGUI == True:
                if len(selectedItems) == 0:
                     self.messageBox("Rename","Please select the sub domain to rename")
                     return
-         
-               if self.newNameLabel.isHidden(): 
-                    self.renameButton.move(600,178)
-         
-                    self.newNameLabel.show()
-         
-                    self.newNameField.show()
-              
-                    self.cancelButton.show()
-         
-                    self.messageBox("Rename","Please enter the new name for the sub domain and click on rename")
-                    
-                    return
 
                if self.newNameField.text() != "":
                     newSubDomain = self.newNameField.text()
@@ -380,12 +400,10 @@ if useGUI == True:
                               currentSubDomains.pop(index);
 
                     currentSubDomains.append({'data' : publicIPAddress,'name': newSubDomain,'ttl': 600,'type': 'A'});
+                    
                     self.subDomainsList.addItem(newSubDomain)
-              
-                    # Use this method to reset everything
-                    self.cancelButtonClicked()
                else:
-                    self.messageBox("Rename","Please enter the new name for the sub domain and click on rename")
+                    self.messageBox("Rename","Please enter the new name for the sub domain")
               
           def saveButtonClicked(self):
                result = self.messageBox_YesNo("Save Subdomains to Go Daddy", "Are you sure you want to save these sub domains ?")
@@ -395,9 +413,9 @@ if useGUI == True:
 
                try:
                     resp = requests.put(url,headers=headers,data=json.dumps(currentSubDomains));
-                    print("The A records have been saved to Go Daddy")
+                    self.messageBox("Save sub domains","The sub domains have been saved")
                except:
-                    print("An error occurred");
+                    self.messageBox("Save sub domains","An error occurred saving the sub domains")
 
 if __name__ == "__main__" and useGUI == True:
      app = QApplication(sys.argv)

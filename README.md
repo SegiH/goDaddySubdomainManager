@@ -10,7 +10,7 @@ This application is a Python 3 based application that lets you manage subdomains
 ## Screenshots
 
 Light Theme
-![Light Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/ScreenShot_LightTheme.png)
+![Light Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshots/ScreenShot_LightTheme.png)
 
 Dark Theme
-![Dark Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/ScreenShot_DarkTheme.png)
+![Dark Theme](https://raw.githubusercontent.com/SegiH/goDaddySubdomainManager/main/Screenshots/ScreenShot_DarkTheme.png)

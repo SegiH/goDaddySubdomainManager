@@ -213,7 +213,7 @@ url=f"https://api.godaddy.com/v1/domains/{domain}/records/A/"
 aRecordsResponse=""
 currentSubDomains=[]
 publicIPAddress=""
-demoMode = True
+demoMode = False
 width=1150
 configFile='config.ini'
 

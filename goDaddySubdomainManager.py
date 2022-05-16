@@ -570,21 +570,19 @@ if __name__ == "__main__" and useGUI == True:
           print(aRecordsResponse[1])
           sys.exit()
 
-     # Write icon
-     
-     # Write temporary output file icon.py
-     from pathlib import Path
-     hex_content = Path('icon.png').read_bytes()
-     Path('icon.py').write_text(f'icon = {hex_content}')
-     from icon import icon
+     try: # Write icon. If this doesn't succeed its no big deal
+          # Write temporary output file icon.py
+          from pathlib import Path
+          hex_content = Path('icon.png').read_bytes()
+          Path('icon.py').write_text(f'icon = {hex_content}')
+          from icon import icon
 
-     pixmap = QPixmap()
-     pixmap.loadFromData(icon)
-     appIcon = QIcon(pixmap)
-     mw.setWindowIcon(appIcon)
+          pixmap = QPixmap()
+          pixmap.loadFromData(icon)
+          appIcon = QIcon(pixmap)
+          mw.setWindowIcon(appIcon)
 
-     try: # Remove temporary generated file
-          os.remove('icon.py')
+          os.remove('icon.py') # Remove temporary generated file
      except:
           ""
 

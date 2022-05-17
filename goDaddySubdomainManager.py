@@ -149,7 +149,7 @@ def readPreference(preferenceName,type = 'string'):
           elif type == 'boolean':
                val=config['DEFAULT'][preferenceName]
                
-               if val == "True" or val == True:
+               if val == "True" or val == "true":
                     return True
                else:
                     return False

@@ -517,6 +517,9 @@ if useGUI == True:
                     return
 
                try:
+                    url=f"https://api.godaddy.com/v1/domains/{domain}/records/A/"
+                    headers={'Authorization': 'sso-key ' + APIKey,'Content-Type' : 'application/json','accept' : 'application/json'}
+                    
                     resp = requests.put(url,headers=headers,data=json.dumps(currentSubDomains))
                     
                     self.messageBox("Save sub domains","The sub domains have been saved")
@@ -550,8 +553,7 @@ elif domain != "" and APIKey != "":
 else:
      aRecordsResponse=["ERROR","Domain or API key is not set. Please edit config.ini"];
 
-if __name__ == "__main__" and useGUI == True:
-     
+if __name__ == "__main__" and useGUI == True:     
      app = QApplication(sys.argv)
      
      if theme == "light":

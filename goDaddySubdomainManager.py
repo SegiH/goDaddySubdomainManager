@@ -85,7 +85,7 @@ def getUserInput():
 
                if newSubDomainExists == False:
                     currentSubDomains.append({'data' : publicIPAddress,'name': newSubDomain,'ttl': 600,'type': 'A'})
-                    print(currentSubDomains)
+                    #print(currentSubDomains)
           if action == 2: # Rename record (delete and create)
                subDomainMenu()
 
@@ -524,10 +524,7 @@ if useGUI == True:
                     self.isModified = False
                except:
                     self.messageBox("Save sub domains","An error occurred saving the sub domains")
- 
-          def showThemeDropdown(self):
-               self.themeList.show()
-               
+
           def themeComboxBoxChanged(self): 
                global theme
                

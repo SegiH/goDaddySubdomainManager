@@ -162,6 +162,7 @@ def savePreferences(overrideDomain="",overrideAPIKey="", overrideTheme=""):
      global configFile
      global domain
      global theme
+     global useGUI
      
      if overrideDomain != "":
           currentDomain=overrideDomain
@@ -178,7 +179,7 @@ def savePreferences(overrideDomain="",overrideAPIKey="", overrideTheme=""):
      else:
           currentTheme=theme
 
-     config['DEFAULT']={ 'Domain' : currentDomain, 'APIKey': currentAPIKey, 'Theme' : currentTheme }
+     config['DEFAULT']={ 'Domain' : currentDomain, 'APIKey': currentAPIKey, 'Theme' : currentTheme, 'useGUI' : useGUI }
      
      with open(configFile, 'w') as configfile:
           config.write(configfile)

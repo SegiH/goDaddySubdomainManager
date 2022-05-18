@@ -241,7 +241,7 @@ if useGUI == True:
 
       # Only needed when using GUI
      from PySide6.QtCore import QEvent, QSize, Qt, Slot
-     from PySide6.QtGui import QIcon, QPixmap
+     from PySide6.QtGui import QGuiApplication, QIcon, QPixmap, QScreen
      from qtpy.QtWidgets import QApplication, QComboBox, QLabel, QLineEdit, QListWidget, QMainWindow, QMessageBox, QPushButton, QWidget
      import qtmodern.styles
      import qtmodern.windows
@@ -286,6 +286,11 @@ if useGUI == True:
                }
 
                super().__init__()
+               
+               qtRectangle = self.frameGeometry()
+               centerPoint = QGuiApplication.screens()[0].geometry().center()
+               qtRectangle.moveCenter(centerPoint)
+               self.move(qtRectangle.topLeft())
 
                self.setFixedSize(sizes['MainWindowWidth'], sizes['MainWindowHeight'])
                
